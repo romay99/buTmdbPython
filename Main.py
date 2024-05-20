@@ -1,4 +1,7 @@
 import APIModule as api
+import tkinter
+
+window = tkinter.Tk()
 
 while True:
     print("""
