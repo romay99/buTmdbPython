@@ -1,7 +1,29 @@
 import APIModule as api
-import tkinter
+from tkinter import *
 
-window = tkinter.Tk()
+
+def getMovieList():
+    movieList = api.getListFamous()
+    listbox = Listbox(window, height=10, width=40)
+    for item in movieList:
+        listbox.insert(END, item[0])
+    listbox.pack()
+
+
+def getMovieDetailByMovieName(moiveName):
+    api.getMovieDetailByMovieId()
+
+
+window = Tk()
+window.title("영화 정보 검색")
+window.geometry("800x600+100+100")
+
+
+getmovieListButton = Button(text="현재 상영작 검색", command=getMovieList)
+getmovieListButton.pack()
+
+window.mainloop()
+
 
 while True:
     print("""

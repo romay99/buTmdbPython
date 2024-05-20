@@ -9,11 +9,14 @@ header = {"Authorization": apiToken}  # API 키를 Http header 에 설정한다.
 def getListFamous():  # 현재 상영작 리스트
     url = "https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1&region=KR"
     response = requests.get(url, headers=header).json()
+    movieList = []
     for movie in response['results']:
         title = movie['title']
         releaseDate = movie['release_date']
         originalLanguage = movie['original_language']
+        movieList.append((title, releaseDate, originalLanguage))
         print(f"제목: {title}, 개봉일: {releaseDate} , 개봉 국가 : {originalLanguage}")
+    return movieList
 
 
 def getMovieDetailByName(movieName):  # 영화 제목으로 영화정보 검색
