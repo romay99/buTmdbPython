@@ -9,11 +9,12 @@ header = {"Authorization": apiToken}  # API 키를 Http header 에 설정한다.
 def getListFamous():  # 현재 상영작 리스트
     url = "https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1&region=KR"
     response = requests.get(url, headers=header).json()
+    movieList = []
     for movie in response['results']:
         title = movie['title']
         releaseDate = movie['release_date']
-        originalLanguage = movie['original_language']
-        print(f"제목: {title}, 개봉일: {releaseDate} , 개봉 국가 : {originalLanguage}")
+        movieList.append((movie['id'], title, releaseDate))
+    return movieList
 
 
 def getMovieDetailByName(movieName):  # 영화 제목으로 영화정보 검색
@@ -31,10 +32,13 @@ def getMovieDetailByName(movieName):  # 영화 제목으로 영화정보 검색
         releaseDate = movie['release_date']
         originalLanguage = movie['original_language']
         print(f"( {index + 1} ) 제목: {title}, {releaseDate} , {originalLanguage}")
-        moviesList.append(movie['id'])
-    findNum = int(input("찾으시는 영화가 몇번 영화에요? : "))
+        moviesList.append((movie['id'], title, releaseDate))
+
+    return moviesList
+    # findNum = int(input("찾으시는 영화가 몇번 영화에요? : "))
+
     # MovieId 값으로 영화 상세정보 하기
-    getMovieDetailByMovieId(str(moviesList[findNum-1]))
+    # getMovieDetailByMovieId(str(moviesList[findNum-1]))
 
 
 def getMovieDetailByMovieId(movieId):  # 영화 ID 값으로 영화정보 검색
@@ -56,3 +60,4 @@ def getMovieDetailByMovieId(movieId):  # 영화 ID 값으로 영화정보 검색
   {movieOverviewWrap}
 
           """)
+    return {"movieName": movieName, "개봉일": movieReleaseDate, "상영시간": movieRunTime, "줄거리": movieOverview}
